@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="AgentHub.ApiService/AgentHub.ApiService.csproj" />
+  <Project Path="AgentHub.AppHost/AgentHub.AppHost.csproj" />
+  <Project Path="AgentHub.ServiceDefaults/AgentHub.ServiceDefaults.csproj" />
+  <Project Path="AgentHub.Web/AgentHub.Web.csproj" />
+</Solution>
