@@ -1,6 +1,13 @@
 <Solution>
-  <Project Path="AgentHub.ApiService/AgentHub.ApiService.csproj" />
   <Project Path="AgentHub.AppHost/AgentHub.AppHost.csproj" />
+  <Project Path="AgentHub.Commodities.Api/AgentHub.Commodities.Api.csproj" />
+  <Project Path="AgentHub.Commodities.Domain/AgentHub.Commodities.Domain.csproj" />
+  <Project Path="AgentHub.Commodities.Worker/AgentHub.Commodities.Worker.csproj" />
+  <Project Path="AgentHub.Contracts/AgentHub.Contracts.csproj" />
+  <Project Path="AgentHub.Correlation.Worker/AgentHub.Correlation.Worker.csproj" />
+  <Project Path="AgentHub.Rates.Api/AgentHub.Rates.Api.csproj" />
+  <Project Path="AgentHub.Rates.Domain/AgentHub.Rates.Domain.csproj" />
+  <Project Path="AgentHub.Rates.Worker/AgentHub.Rates.Worker.csproj" />
   <Project Path="AgentHub.ServiceDefaults/AgentHub.ServiceDefaults.csproj" />
   <Project Path="AgentHub.Web/AgentHub.Web.csproj" />
 </Solution>

@@ -8,11 +8,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AgentHub.Contracts\AgentHub.Contracts.csproj" />
+    <ProjectReference Include="..\AgentHub.Rates.Domain\AgentHub.Rates.Domain.csproj" />
     <ProjectReference Include="..\AgentHub.ServiceDefaults\AgentHub.ServiceDefaults.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ModelContextProtocol" Version="1.2.0" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
+    <PackageReference Include="ModelContextProtocol.AspNetCore" Version="1.2.0" />
   </ItemGroup>
 
 </Project>

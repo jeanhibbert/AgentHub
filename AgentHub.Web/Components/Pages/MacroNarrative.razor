@@ -1,0 +1,132 @@
+@page "/macro-narrative"
+@using AgentHub.Web.Services
+@inject MacroNarrativeService NarrativeService
+
+<PageTitle>Macro Narrative</PageTitle>
+
+<div class="macro-shell">
+    <section class="hero-panel">
+        <p class="eyebrow">Scenario 1 Validation</p>
+        <h1>Cross-book macro narrative console</h1>
+        <p class="hero-copy">
+            Bootstrap the commodities and rates books, then ask the local Ollama model whether the oil shock and swap repricing form a coherent macro story.
+        </p>
+        <div class="hero-actions">
+            <button class="btn btn-light" @onclick="BootstrapScenarioAsync" disabled="@_busy">Inject Scenario 1</button>
+            <button class="btn btn-outline-light" @onclick="RunQueryAsync" disabled="@_busy">Run Narrative Query</button>
+        </div>
+    </section>
+
+    <section class="query-panel">
+        <div>
+            <label class="form-label" for="question">LLM query</label>
+            <textarea id="question" class="form-control query-box" @bind="_question"></textarea>
+        </div>
+        <div>
+            <label class="form-label" for="correlationKey">Correlation key</label>
+            <input id="correlationKey" class="form-control" @bind="_correlationKey" />
+        </div>
+        @if (!string.IsNullOrWhiteSpace(_status))
+        {
+            <p class="status-line">@_status</p>
+        }
+    </section>
+
+    @if (_bootstrapResult is not null)
+    {
+        <section class="data-grid">
+            <article class="data-card">
+                <h2>Bootstrap response: commodities</h2>
+                <pre>@_bootstrapResult.CommoditiesResponseJson</pre>
+            </article>
+            <article class="data-card">
+                <h2>Bootstrap response: rates</h2>
+                <pre>@_bootstrapResult.RatesResponseJson</pre>
+            </article>
+        </section>
+    }
+
+    @if (_result is not null)
+    {
+        <section class="answer-panel">
+            <div>
+                <p class="eyebrow">Ollama answer</p>
+                <h2>@_result.Model at @_result.GeneratedAt.ToLocalTime().ToString("u")</h2>
+                <p class="narrative">@_result.Narrative</p>
+            </div>
+        </section>
+
+        <section class="data-grid triple">
+            <article class="data-card">
+                <h2>Commodities MCP context</h2>
+                <pre>@_result.CommodityMcpContext</pre>
+            </article>
+            <article class="data-card">
+                <h2>Rates MCP context</h2>
+                <pre>@_result.RatesMcpContext</pre>
+            </article>
+            <article class="data-card">
+                <h2>Question</h2>
+                <pre>@_result.Question</pre>
+            </article>
+        </section>
+
+        <section class="data-grid">
+            <article class="data-card">
+                <h2>Commodities positions</h2>
+                <pre>@_result.CommodityPositionsJson</pre>
+            </article>
+            <article class="data-card">
+                <h2>Rates positions</h2>
+                <pre>@_result.RatesPositionsJson</pre>
+            </article>
+        </section>
+    }
+</div>
+
+@code {
+    private bool _busy;
+    private string _question = MacroNarrativeService.DefaultQuestion;
+    private string _correlationKey = AgentHub.Contracts.ScenarioCatalog.DefaultCorrelationKey;
+    private string? _status;
+    private MacroNarrativeService.ScenarioBootstrapResult? _bootstrapResult;
+    private MacroNarrativeService.MacroNarrativeResult? _result;
+
+    private async Task BootstrapScenarioAsync()
+    {
+        await ExecuteAsync(async cancellationToken =>
+        {
+            _bootstrapResult = await NarrativeService.BootstrapScenarioOneAsync(cancellationToken);
+            _correlationKey = _bootstrapResult.CorrelationKey;
+            _status = "Scenario 1 injected into both trading systems.";
+        });
+    }
+
+    private async Task RunQueryAsync()
+    {
+        await ExecuteAsync(async cancellationToken =>
+        {
+            _result = await NarrativeService.QueryAsync(_question, _correlationKey, cancellationToken);
+            _status = "Local Ollama query completed.";
+        });
+    }
+
+    private async Task ExecuteAsync(Func<CancellationToken, Task> action)
+    {
+        _busy = true;
+        _status = "Working...";
+
+        try
+        {
+            await action(CancellationToken.None);
+        }
+        catch (Exception exception)
+        {
+            _status = exception.Message;
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+}

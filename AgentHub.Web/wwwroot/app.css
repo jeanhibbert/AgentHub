@@ -1,5 +1,6 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top, #edf6ff 0%, #f7efe2 42%, #f5f7fb 100%);
 }
 
 a, .btn-link {
@@ -18,6 +19,33 @@ a, .btn-link {
 
 .content {
     padding-top: 1.1rem;
+}
+
+.app-topbar {
+    border-bottom: 1px solid rgba(32, 50, 73, 0.12);
+    font-weight: 600;
+    color: #203249;
+}
+
+.hero-panel {
+    background: linear-gradient(135deg, #0b1f38 0%, #456b8c 100%);
+    color: #f8fbff;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 24px 60px rgba(9, 32, 63, 0.18);
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.78rem;
+    opacity: 0.8;
+}
+
+.hero-copy {
+    max-width: 50rem;
+    font-size: 1.05rem;
+    line-height: 1.7;
 }
 
 h1:focus {
